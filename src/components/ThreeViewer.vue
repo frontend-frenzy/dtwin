@@ -24,6 +24,7 @@
     renderer.setPixelRatio(window.devicePixelRatio)
     renderer.setSize(container.value.clientWidth, container.value.clientHeight)
     container.value.appendChild(renderer.domElement)
+    
     camera = new THREE.PerspectiveCamera(40, container.value.clientWidth / container.value.clientHeight, 1, 100)
     camera.position.set(5, 2, 8)
     controls = new OrbitControls(camera, renderer.domElement)
@@ -48,7 +49,11 @@
     const loader = new GLTFLoader()
     loader.setDRACOLoader(dracoLoader)
     loader.load(url, (gltf) => {
-      scene.add(gltf.scene)
+   
+      const model = gltf.scene;
+				model.position.set( 1, 1, 0 );
+				model.scale.set( 0.01, 0.01, 0.01 );
+				scene.add( model );
     }, undefined, (error) => {
       console.error('Error loading model:', error)
     })

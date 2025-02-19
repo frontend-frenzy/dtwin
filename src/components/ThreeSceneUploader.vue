@@ -12,7 +12,7 @@
         />
         <button
           id="resetCamera"
-          @click="resetCamera"
+  
           class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
         >
           Reset Camera
@@ -25,7 +25,7 @@
   import { useThreeScene } from '../composables/useThreeScene'
   
 
-  const { container, onFileChange, resetCamera } = useThreeScene()
+  const { container, onFileChange } = useThreeScene()
   </script>
   
   <style scoped>

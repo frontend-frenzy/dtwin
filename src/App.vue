@@ -1,15 +1,23 @@
 <script setup lang="ts">
-import Home from './components/Home.vue'
+import Home from './pages/Home.vue';
+import Header from './components/Header.vue';
 </script>
 
 <template>
-  <div>
-    <Home msg="Vite + Vue" />
+  <div class="container">
+    <Header />
+    <div>
+      <Home />
+    </div>
   </div>
-
 </template>
 
 <style scoped>
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
 .logo {
   height: 6em;
   padding: 1.5em;
