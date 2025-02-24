@@ -432,7 +432,7 @@
 
 "@vue/devtools-api@^6.6.4":
   version "6.6.4"
-  resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.6.4.tgz#cbe97fe0162b365edc1dba80e173f90492535343"
+  resolved "https://registry.npmjs.org/@vue/devtools-api/-/devtools-api-6.6.4.tgz"
   integrity sha512-sGhTPMuXqZ1rVOk32RylztWkfXTRhuS7vgAKv0zjqk8gbsHkJ7xfFf+jbySxt7tWObEJwyKaHMikV/WGDiQm8g==
 
 "@vue/language-core@2.2.0":
@@ -1271,6 +1271,11 @@ thenify-all@^1.0.0:
   dependencies:
     any-promise "^1.0.0"
 
+three-mesh-bvh@0.5.21:
+  version "0.5.21"
+  resolved "https://registry.yarnpkg.com/three-mesh-bvh/-/three-mesh-bvh-0.5.21.tgz#e08f5f3052d624cce36d0975692949c02359832f"
+  integrity sha512-TGXPk7YwtlU5rgQJYA25OT6yAdBMeekfC4BTkGNtTWA5glb2rmEpjxvhZncRQSl73QZir2LFOQT0FjfzgG55xw==
+
 three@^0.173.0:
   version "0.173.0"
   resolved "https://registry.npmjs.org/three/-/three-0.173.0.tgz"
@@ -1322,9 +1327,9 @@ vscode-uri@^3.0.8:
   resolved "https://registry.npmjs.org/vscode-uri/-/vscode-uri-3.1.0.tgz"
   integrity sha512-/BpdSx+yCQGnCvecbyXdxHDkuk55/G3xwnC0GqY4gmQ3j+A+g8kzzgB4Nk/SINjqn6+waqw3EgbVF2QKExkRxQ==
 
-vue-router@4:
+vue-router@^4.5.0:
   version "4.5.0"
-  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-4.5.0.tgz#58fc5fe374e10b6018f910328f756c3dae081f14"
+  resolved "https://registry.npmjs.org/vue-router/-/vue-router-4.5.0.tgz"
   integrity sha512-HDuk+PuH5monfNuY+ct49mNmkCRK4xJAV9Ts4z9UFc4rzdDnxQLyCMGGc8pKhZhHTVzfanpNwB/lwqevcBwI4w==
   dependencies:
     "@vue/devtools-api" "^6.6.4"
@@ -1347,6 +1352,19 @@ vue@^3.5.13:
     "@vue/runtime-dom" "3.5.13"
     "@vue/server-renderer" "3.5.13"
     "@vue/shared" "3.5.13"
+
+web-ifc-three@^0.0.126:
+  version "0.0.126"
+  resolved "https://registry.yarnpkg.com/web-ifc-three/-/web-ifc-three-0.0.126.tgz#407ca578ac0064897515fe805927ebe56f15c72b"
+  integrity sha512-P2/jcuSZvpLnGiLcd1H+8N01oWuyIjmU5zUy/rzx8HTrbJn7FCE6uC4SFJyYvmxwN6+uFCRmEvzHkfHrdJzpcQ==
+  dependencies:
+    three-mesh-bvh "0.5.21"
+    web-ifc "^0.0.39"
+
+web-ifc@^0.0.39:
+  version "0.0.39"
+  resolved "https://registry.yarnpkg.com/web-ifc/-/web-ifc-0.0.39.tgz#c3c7e9b16aad79f8ad78e346671cb5b854480737"
+  integrity sha512-sg+DyxDiyXBqlXXbz+uSqw8IGX+mVvHmn2+hg6UXDvAcrzJJw8EI2H4ZzlxWxCqqdpGVeK0wCpdeQm43UCDbrA==
 
 which@^2.0.1:
   version "2.0.2"

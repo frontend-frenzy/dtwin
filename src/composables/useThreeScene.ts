@@ -3,9 +3,13 @@ import * as THREE from 'three'
 import Stats from 'three/examples/jsm/libs/stats.module.js'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { ColladaLoader } from 'three/examples/jsm/loaders/ColladaLoader.js'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
+import { IFCLoader } from 'web-ifc-three'
 
 export function useThreeScene() {
   const container = ref<HTMLDivElement | null>(null)
+  const isLoading = ref(false) // Loader state
   let scene: THREE.Scene
   let camera: THREE.PerspectiveCamera
   let renderer: THREE.WebGLRenderer
@@ -38,7 +42,7 @@ export function useThreeScene() {
 
     camera = new THREE.PerspectiveCamera(45, container.value.clientWidth / container.value.clientHeight, 0.1, 2000)
     camera.position.set(8, 10, 8)
-    camera.lookAt(0, 3, 0)
+    camera.lookAt(new THREE.Vector3(0, 3, 0))
 
     controls = new OrbitControls(camera, renderer.domElement)
     controls.target.set(0, 3, 0)
@@ -57,47 +61,86 @@ export function useThreeScene() {
     animationId = requestAnimationFrame(animate)
   }
 
-  function loadColladaModel(file: File) {
-    if (!scene) return
+  function clearModel() {
     if (currentModel) {
       scene.remove(currentModel)
+      currentModel.traverse((child) => {
+        if (child instanceof THREE.Mesh) {
+          child.geometry.dispose()
+          if (Array.isArray(child.material)) {
+            child.material.forEach(mat => mat.dispose())
+          } else {
+            child.material.dispose()
+          }
+        }
+      })
       currentModel = null
     }
-    const url = URL.createObjectURL(file)
-    const loader = new ColladaLoader()
-    loader.load(url, (collada) => {
-      currentModel = collada.scene
-      scene.add(currentModel)
-    }, undefined, (error) => {
-      console.error('Error loading Collada model:', error)
-    })
   }
 
   function loadModel(file: File) {
     const fileName = file.name.toLowerCase()
+    isLoading.value = true 
+    clearModel()
+    const url = URL.createObjectURL(file)
+
     if (fileName.endsWith('.dae')) {
-      loadColladaModel(file)
+      console.log("Loading Collada model (.dae)")
+      const loader = new ColladaLoader()
+      loader.load(url, (collada) => {
+        currentModel = collada.scene
+        scene.add(currentModel)
+        isLoading.value = false 
+      }, undefined, (error) => {
+        console.error('Error loading Collada model:', error)
+        isLoading.value = false
+      })
+    } else if (fileName.endsWith('.gltf') || fileName.endsWith('.glb')) {
+      console.log("Loading GLTF model (.gltf, .glb)")
+      const loader = new GLTFLoader()
+      const dracoLoader = new DRACOLoader()
+      dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/')
+      loader.setDRACOLoader(dracoLoader)
+      loader.load(url, (gltf) => {
+        currentModel = gltf.scene
+        scene.add(currentModel)
+        isLoading.value = false
+      }, undefined, (error) => {
+        console.error('Error loading GLTF model:', error)
+        isLoading.value = false
+      })
+    } else if (fileName.endsWith('.ifc')) {
+      console.log("Loading IFC model (.ifc)")
+      const loader = new IFCLoader()
+      loader.load(url, (ifcModel) => {
+        currentModel = ifcModel
+        scene.add(currentModel)
+        isLoading.value = false
+      }, undefined, (error) => {
+        console.error('Error loading IFC model:', error)
+        isLoading.value = false
+      })
     } else {
-      console.warn('Currently only .dae is handled here')
+      console.warn('Unsupported format. Only .dae, .gltf, .glb, and .ifc are supported.')
+      isLoading.value = false
     }
   }
 
   function onFileChange(event: Event) {
     const target = event.target as HTMLInputElement
     if (target.files && target.files.length > 0) {
+      console.log("File selected:", target.files[0].name)
       loadModel(target.files[0])
     }
   }
 
   function resetCamera() {
+    console.log("Resetting Camera and Clearing Model")
+    clearModel()
     camera.position.set(8, 10, 8)
-    camera.lookAt(0, 3, 0)
+    camera.lookAt(new THREE.Vector3(0, 3, 0))
     controls.target.set(0, 3, 0)
     controls.update()
-    if (currentModel) {
-      scene.remove(currentModel)
-      currentModel = null
-    }
   }
 
   function onWindowResize() {
@@ -120,6 +163,7 @@ export function useThreeScene() {
   return {
     container,
     onFileChange,
-    resetCamera
+    resetCamera,
+    isLoading
   }
 }

@@ -8,26 +8,21 @@
           <div class="font-semibold">3D Models</div>
         </div>
       </router-link>
-<!--   
-      <svg style="z-index: 11" class="hamb" @click="toggleMenu" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 32 32">
-        <path fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h22M5 16h22M5 24h22" />
-      </svg> -->
-  
+
+      <router-link to="/uploadfile"  >
       <div class="flex items-center gap-5 list">
-        <router-link  >
-       tes
-        </router-link>
+    
+          <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M5 20h14v-2H5v2zm7-18l-5.5 5.5 1.42 1.42L11 6.83V17h2V6.83l3.08 3.09 1.42-1.42L12 2z"/>
+          </svg>
+       Upload Your File 
+   
       </div>
-  
-      <!-- <div v-if="open" class="flex flex-col items-center gap-5 listResponsive">
-        <router-link  @click="toggleMenu" >
-       tes
-        </router-link>
-      </div> -->
+     </router-link>
+ 
     </div>
   
-    <router-view />
-    <Footer />
+
   </template>
   
   <script setup lang="ts">
