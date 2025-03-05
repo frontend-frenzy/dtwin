@@ -1,8 +1,12 @@
 <template>
-    <div :class="['p-5', styles.card]">
+  <div class="photo">
+        <div class="photo__image"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/567707/gg-italy.jpeg" style="height: 200px; width: 175px;"/></div>
+        <div class="photo__name">{{modal.name}}</div>
+      </div>
+   <!--   <div :class="['p-5', styles.card]">
       <img :src="modal.thumbnail" :alt="modal.name" style="height: 175px;" @click="openModal" class="cursor-pointer" />
       
-      <Teleport to="body">
+     <Teleport to="body">
         <transition name="modal-fade">
           <div v-if="isModalOpen" class="modal-overlay" @click.self="closeModal">
             <div class="modal-content">
@@ -12,8 +16,9 @@
             </div>
           </div>
         </transition>
-      </Teleport>
-    </div>
+      </Teleport> 
+      
+    </div>-->
 </template>
   
 <script setup lang="ts">
@@ -41,12 +46,12 @@ const closeModal = () => {
 </script>
   
 <style scoped>
-.card {
+/* .card {
   display: flex;
   gap: 16px;
   padding: 20px;
   cursor: pointer;
-}
+} */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -92,4 +97,5 @@ const closeModal = () => {
   width: 100%;
   height: 70vh;
 }
+
 </style>
