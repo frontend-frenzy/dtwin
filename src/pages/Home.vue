@@ -1,10 +1,29 @@
 <template>
-  <div class="gallery">
+  <div v-if="!selectedModel" class="gallery">
+   
+    <div class="wrapper">
+
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+    </div>
     <div class="gallery__strip__wrapper">
       <div class="gallery__strip one">
-        <div class="photo" v-for="(modal, index) in filteredModals" :key="index">
+        <div class="photo" v-for="(modal, index) in filteredModals" :key="index" @click="selectModel(modal)">
           <div class="photo__image">
-            <img :src="modal.thumbnail" alt="modal.name"/>
+            <img :src="modal.thumbnail" alt="modal.name" />
           </div>
           <div class="photo__name">{{ modal.name }}</div>
         </div>
@@ -12,32 +31,47 @@
     </div>
     <div class="gallery__strip__wrapper">
       <div class="gallery__strip two">
-        <div class="photo" v-for="(modal, index) in filteredModals" :key="index">
+        <div class="photo" v-for="(modal, index) in filteredModals" :key="index" @click="selectModel(modal)">
           <div class="photo__image">
-            <img :src="modal.thumbnail" alt="modal.name"/>
+            <img :src="modal.thumbnail" alt="modal.name" />
           </div>
           <div class="photo__name">{{ modal.name }}</div>
         </div>
       </div>
     </div>
   </div>
+  <div v-else>
+    <button @click="selectedModel = null">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+  </button>
+    <ThreeViewer :modelUrl="selectedModel.modelUrl" />
+   
+  </div>
+
 </template>
 
-  
-  <script setup lang="ts">
-  import { ref, computed } from 'vue';
-  import GalleryCard from '../components/GalleryCard.vue';
-  import { models } from '../constant/data';
-  import type { Model } from '../types/Modal';
-  
-  const searchQuery = ref('');
-  
-  const filteredModals = computed(() => {
-    return models.value?.filter((modal: Model) => 
-      modal.name.toLowerCase().includes(searchQuery.value.toLowerCase())
-    );
-  });
-  </script>
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import ThreeViewer from '../components/ThreeViewer.vue';
+import { models } from '../constant/data';
+import type { Model } from '../types/Modal';
+
+const searchQuery = ref('');
+const selectedModel = ref<Model | null>(null);
+
+const filteredModals = computed(() => {
+  return models.value?.filter((modal: Model) =>
+    modal.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+});
+
+const selectModel = (modal: Model) => {
+  selectedModel.value = modal;
+};
+</script>
+
   
   <style lang="scss" scoped>
   /* Ensure cards have proper spacing and max width */
@@ -111,6 +145,7 @@
   .photo {
    position: relative;
    text-align: right;
+   cursor: pointer;
    padding-bottom: 3rem;
    &__image img {
     width: 90%;
@@ -162,6 +197,15 @@
   }
   
   
+button {
+  margin: 20px 0px;
+  padding: 10px 20px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
   
   </style>
   
